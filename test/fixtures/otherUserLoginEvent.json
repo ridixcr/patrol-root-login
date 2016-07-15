@@ -6,7 +6,7 @@
       "principalId":"AIDAEZ7VBM6PDZEXAMPLE",
       "arn":"arn:aws:iam::12345679012:user/root",
       "accountId":"12345679012",
-      "userName":"root"
+      "userName":"other"
     },
     "eventTime":"2014-07-08T17:36:03Z",
     "eventSource":"signin.amazonaws.com",
