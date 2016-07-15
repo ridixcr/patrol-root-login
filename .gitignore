@@ -1,4 +1,2 @@
-/nbproject/private/
-/node_modules/
-/nbproreject/
-.gitigno
+nbproject
+node_modules
