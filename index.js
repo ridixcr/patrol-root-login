@@ -17,7 +17,7 @@ module.exports.fn = function (event, callback) {
             callback(err, result);
         });
     }else if (m.isRoot(event) || m.isOtherUser(event)) {
-        callback(null,'');  
+        callback(null,'Login is OK!');  
     }
 };
 module.exports.isRoot = function (event) {//OFICINA - NO MENSAJE
@@ -28,7 +28,7 @@ module.exports.isRoot = function (event) {//OFICINA - NO MENSAJE
 module.exports.isRootNotValid = function (event) {//DESCONOCIDO - MENSAJE
     var userDetail = event.detail;
     return userDetail.userIdentity.userName === 'root' 
-           && userDetail.sourceIPAddress !== '127.0.0.1';
+           && userDetail.sourceIPAddress === '127.0.0.1';
 };
 module.exports.isOtherUser = function (event) {//NO MENSAJE
     var userName = event.detail.userIdentity.userName;
