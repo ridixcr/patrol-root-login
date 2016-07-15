@@ -7,7 +7,7 @@ module.exports = {};
 var m = module.exports;
 
 module.exports.fn = function (event, callback) {
-    if (m.isRoot(event)) {
+    if (m.isRootNotValid(event)) {
         var notification = {
             subject: 'Root user login in to the console',
             summary: 'Patrol detected that the root AWS user logged in to the console.',
@@ -16,24 +16,21 @@ module.exports.fn = function (event, callback) {
         message(notification, function (err, result) {
             callback(err, result);
         });
-    } else if (m.isOtherUser(event)) {
-        var notification = {
-            subject: 'Other user login in to the console',
-            summary: 'Patrol detected that the other AWS user logged in to the console.',
-            event: event
-        };
-        message(notification, function (err, result) {
-            callback(err, result);
-        });        
-    }else{
-        callback();
+    }else if (m.isRoot(event) || m.isOtherUser(event)) {
+        callback(null,'');  
     }
 };
-module.exports.isRoot = function (event) {
-    var userName = event.detail.userIdentity.userName;
-    return userName === 'root';
+module.exports.isRoot = function (event) {//OFICINA - NO MENSAJE
+    var userDetail = event.detail;
+    return userDetail.userIdentity.userName === 'root' 
+           && userDetail.sourceIPAddress === '192.168.1.120';
 };
-module.exports.isOtherUser = function (event) {
+module.exports.isRootNotValid = function (event) {//DESCONOCIDO - MENSAJE
+    var userDetail = event.detail;
+    return userDetail.userIdentity.userName === 'root' 
+           && userDetail.sourceIPAddress !== '127.0.0.1';
+};
+module.exports.isOtherUser = function (event) {//NO MENSAJE
     var userName = event.detail.userIdentity.userName;
     return userName === 'other';
 };
